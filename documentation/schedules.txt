@@ -1,0 +1,233 @@
+
+calendarcellminutes = 60; // time for a cell. For now, this is fixed at 60 minute
+minimumScheduleInMinute = 15 // Options: 15, 30, 45, 60, 90, 120. Here 15 means, you can schedule a order for up to minimum 15 minutes. Max is up to remaining of the working day of the People/Resource
+scheduleGranularityInMinutes = 15;   // it can be 15, 30 or 60 minutes. 15 means, a schedule can be 12:15 to 2:45. 30 means, 9:30 to 12:30 etc 
+startWorkingTime = 8; // clock is from 0 to 23. Start time can be 22.
+endWorkingTime = 18; // clock is from 0 to 23. End time can be 8.
+
+
+Functions that you will need for schedules:
+1. getAllSchedules (startdate, enddate) - returns all within this date range
+2. addSchedule(schedule) - set schedule.id = nextVal(); schedules.push(schedule) and updates order[schedule.serviceid].scheduled = true
+3. updateSchedule(schedule) - schedules[schedule.id] = schedule
+4. removeSchedule(schedule) - remove schedules[schedule.id] and update order[schedule.serviceid].scheduled = false
+
+schedules = 
+[
+	{
+		id: '1', 
+  		serviceid: 1540,
+  		peopleid: 15 ,
+  		scheduledate: 2020-02-15T01:30:17.305,
+  		starttime: 9,
+  		endtime: 10,
+  		status: 2,
+	},
+	{
+		id: '2', 
+  		serviceid: 1541,
+  		peopleid: 16,
+  		scheduledate: 2020-02-15T01:30:17.305,
+  		starttime: 9,
+  		endtime: 10,
+  		status: 1,
+	}
+]
+
+1. getAllUnschedulesOrders() -  return all orders where status = false
+
+orders =
+[
+  {
+    id: '1544',
+    customerid: '446',
+    customername: 'RED LION HOTEL',
+    city: ' Middlefield1',
+    detail: 'jjjjj',
+    scheduled: false
+  },
+  {
+    id: '1543',
+    customerid: '642',
+    customername: 'Changed AFTON UTILITY DEPT',
+    city: ' ccc',
+    detail: 'kkkk',
+    scheduled: false
+  },
+  {
+    id: '1542',
+    customerid: '536',
+    customername: 'ROBERTS FIRE DISTRICT',
+    city: ' Bayshore',
+    detail: 'Teller',
+    scheduled: false
+  },
+  {
+    id: '1539',
+    customerid: '624',
+    customername: 'COATS & COATS',
+    city: ' Bayshore',
+    detail: 'A9090',
+    scheduled: false
+  },
+  {
+    id: '1538',
+    customerid: '574',
+    customername: 'SALMON AIR TAXI',
+    city: null,
+    detail: 'JKA',
+    scheduled: false
+  },
+  {
+    id: '1537',
+    customerid: '558',
+    customername: 'DAHLE CONSTRUCTION',
+    city: null,
+    detail: 'N092',
+    scheduled: false
+  },
+  {
+    id: '1536',
+    customerid: '616',
+    customername: 'SWAN VALLEY FIRE DEPT',
+    city: null,
+    detail: 't901',
+    scheduled: false
+  },
+  {
+    id: '1534',
+    customerid: '642',
+    customername: 'AFTON UTILITY DEPT',
+    city: ' Middlefield',
+    detail: 'Hello',
+    scheduled: false
+  },
+  {
+    id: '1533',
+    customerid: '624',
+    customername: 'COATS & COATS',
+    city: ' Bayshore',
+    detail: 'HVAC  issue',
+    scheduled: false
+  },
+  {
+    id: '1532',
+    customerid: '446',
+    customername: 'RED LION HOTEL',
+    city: ' fre',
+    detail: 'ope',
+    scheduled: false
+  },
+  {
+    id: '1531',
+    customerid: '642',
+    customername: 'AFTON UTILITY DEPT',
+    city: null,
+    detail: 'TTTTT',
+    scheduled: false
+  },
+  {
+    id: '1529',
+    customerid: '446',
+    customername: 'RED LION HOTEL',
+    city: ' Middlefield',
+    detail: 'test3',
+    scheduled: false
+  },
+  {
+    id: '1535',
+    customerid: '642',
+    customername: 'AFTON UTILITY DEPT',
+    city: null,
+    detail: 'jjjj',
+    scheduled: false
+  },
+  {
+    id: '1541',
+    customerid: '642',
+    customername: 'Changed AFTON UTILITY DEPT',
+    city: ' ccc',
+    detail: 'kkkk',
+    scheduled: true
+  },
+  {
+    id: '1540',
+    customerid: '536',
+    customername: 'ROBERTS FIRE DISTRICT',
+    city: ' Bayshore',
+    detail: 'Teller',
+    scheduled: true
+  }
+]
+
+1. getAllResources() -  returns all the resources
+
+resources =
+[
+  {
+    id: '5',
+    fname: 'Steve',
+    lname: 'Doller',
+  },
+  {
+    id: '6',
+    fname: 'John',
+    lname: 'Muller',
+  },
+  {
+    id: '4',
+    fname: 'Roken',
+    lname: 'Teller',
+  },
+  {
+    id: '7',
+    fname: 'Tom',
+    lname: 'Dusty',
+  },
+  {
+    id: '8',
+    fname: 'David',
+    lname: 'Clark',    
+  },
+  {
+    id: '9',
+    fname: 'Sean',
+    lname: 'Troller',
+  },
+  {
+    id: '10',
+    fname: 'Thomas',
+    lname: 'Suberg',
+  },
+  {
+    id: '11',
+    fname: 'Corona',
+    lname: 'Virus',
+  },
+  {
+    id: '12',
+    fname: 'Mike',
+    lname: 'Muller',
+  },
+  {
+    id: '13',
+    fname: 'Troy',
+    lname: 'Sailor',
+  },
+  {
+    id: '14',    
+    fname: 'Rusty',
+    lname: 'Beats',
+  },
+  {
+    id: '15',    
+    fname: 'Carlos',
+    lname: 'Aspin',
+  },
+  {
+    id: '16',
+    fname: 'Doren',
+    lname: 'Natter',
+  }
+]
+

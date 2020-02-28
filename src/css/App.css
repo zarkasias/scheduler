@@ -1,0 +1,21 @@
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 40px;
+}
+
+.componentContainer {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border: 2px solid #e5e5e5;
+}
+
+.orderComponentContainer {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  border: 2px solid #e5e5e5;
+}
+
+:focus {
+  outline: none;
+}

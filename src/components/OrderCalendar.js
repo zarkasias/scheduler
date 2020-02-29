@@ -123,22 +123,22 @@ export default class OrderCalendar extends Component {
 
         resources.forEach((window, index) => {
             var windowarray = [];
-            window.order = undefined;
+            window.orders = [];
             orders.forEach(order => {
                 if (order.peopleid === Number(window.id)) {
                     if (this.testDate(order.scheduledate)) {
-                        window.order = order;
+                        window.orders.push(order);
                     }
                 }
             })
             for (var j = 0; j < this.state.hour_count; j++) {
-                  var wobj;
-                 if (window.order && window.order.starttime === (j+1)) {
-                        wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "value": window.order.serviceid};
-                 } else {
-                        wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "value": false};
+                  var wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "value": false};
+                  for (var m = 0; m < window.orders.length; m++) {
+                    if (window.orders[m].starttime === (j+1)) {
+                        wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "value": window.orders[m].serviceid};
                  }
-                 windowarray.push(wobj);
+                  }      
+                windowarray.push(wobj);
              } 
              window.hours = windowarray;
         })

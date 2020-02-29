@@ -2,6 +2,8 @@ import React, { Component } from 'react';
  
 import { StickyTable, Row, Cell } from 'react-sticky-table';
 
+import Button from '@material-ui/core/Button';
+
 import '../css/table.css';
  
 export default class Calendar extends Component {
@@ -29,14 +31,21 @@ export default class Calendar extends Component {
                         ? <Cell 
                             key={hour.key} 
                             onDragOver={(e) => this.props.dragHandler(e)}
-                            onDrop={(e) => this.props.dropHandler(e, hour, "dropped")} 
+                            onDrop={(e) => this.props.dropHandler(e, hour)} 
                             className="cellStructure dataCell">
                                 {hour.value}
                             </Cell>
                         : <Cell 
                             key={hour.key} 
                             className="cellStructure dataCell">
-                                {hour.value}
+                                <Button 
+                                  variant="contained"
+                                  className="statusButton"
+                                  fullWidth="true"
+                                  disableRipple="true"
+                                  disableElevation>
+                                      {hour.value}
+                              </Button>
                             </Cell>   
                         )
                         

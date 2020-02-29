@@ -80,19 +80,35 @@ export default class OrderCalendar extends Component {
       }
 
       setSchedule(order) {
-          console.log(order);
           fetch(this.state.host + "/schedules", {
               method: "post",
+              headers: {'Content-Type':'application/json'},
               body: JSON.stringify(order)
           }).then(res => res.json())
             .then(
             (result) => {
-                console.log(result);
+                this.fetchSchedules();
             },
             (error) => {
                 console.log(error);
             }
         )
+      }
+
+      updateOrder(id,order) {
+          fetch(this.state.host + "/orders/" + id, {
+              method: "put",
+              headers: {'Content-Type':'application/json'},
+              body: JSON.stringify(order)
+          }).then(res => res.json())
+          .then(
+          (result) => {
+              console.log(result);
+          },
+          (error) => {
+              console.log(error);
+          }
+      )
       }
 
       setCalendar() {
@@ -170,19 +186,30 @@ export default class OrderCalendar extends Component {
         oEvent.preventDefault();
     }
     
-    onDropHandler = (oEvent, oCell, category) => {
-        let id = oEvent.dataTransfer.getData("id");
-        let oResource = this.state.resources[oCell.resourcekey];
-        var oOrder = {
-            "id": this.state.scheduled_orders.length,
-            "serviceid": id,
-            "peopleid": oResource.id,
+    onDropHandler = (oEvent, oCell) => {
+        var id = oEvent.dataTransfer.getData("id");
+        var oResource = this.state.resources[oCell.resourcekey];
+        var oOpenOrders = this.state.unscheduled_orders, oOpenOrder;
+
+        //select current open order to update scheduled status
+        oOpenOrders.forEach(order => {
+            if(Number(order.id) === Number(id))
+                oOpenOrder = order;
+        });
+        oOpenOrder.scheduled = true;
+
+        //create new scheduled order to be posted to API    
+        var oScheduledOrder = {
+            "id": this.state.scheduled_orders.length + 1,
+            "serviceid": Number(id),
+            "peopleid": Number(oResource.id),
             "scheduledate": new Date(this.state.date).toISOString(),
             "starttime": oCell.hour,
             "endtime": (oCell.hour + 1),
             "status": 1
             }
-        this.setSchedule(oOrder);  
+       this.updateOrder(id,oOpenOrder);     
+       this.setSchedule(oScheduledOrder);  
     }
 
     render() { 

@@ -27,3 +27,13 @@
 a.orderLink {
     text-decoration: none;
 }
+
+.statusButton.MuiButtonBase-root {
+    vertical-align: top;
+    margin: 20px 0 0 0;
+}
+
+.greenStatus.MuiButton-contained {
+    background-color: green;
+    color: #fff;
+}

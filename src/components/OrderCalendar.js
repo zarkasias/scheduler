@@ -132,17 +132,16 @@ export default class OrderCalendar extends Component {
                 }
             })
             for (var j = 0; j < this.state.hour_count; j++) {
-                  var wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "value": false};
+                  var wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": "", "value": false};
                   for (var m = 0; m < window.orders.length; m++) {
                     if (window.orders[m].starttime === (j+1)) {
-                        wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "value": window.orders[m].serviceid};
+                        wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": window.orders[m].scheduledate, "value": window.orders[m].serviceid};
                  }
                   }      
                 windowarray.push(wobj);
              } 
              window.hours = windowarray;
-        })
-
+        });
        this.setState({
            calendar: resources,
            hours: dailyhours

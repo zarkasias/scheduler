@@ -3,13 +3,29 @@ import React, { Component } from 'react';
 import { StickyTable, Row, Cell } from 'react-sticky-table';
 
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
 
 import '../css/table.css';
  
 export default class Calendar extends Component {
 
+ 
     
-  render() {
+ render() {
+
+  const testDateClass = date => {
+    var dateClass = "statusButton";
+    var odate = new Date(date).setHours(0,0,0,0);
+    var today = new Date().setHours(0,0,0,0);
+    if (odate < today) {
+        dateClass = "statusButton redStatus";
+    }
+    if (odate > today) {
+      dateClass = "statusButton greenStatus";
+    }
+    return dateClass;
+}
+
 
     return (
       <div className="componentContainer">
@@ -40,9 +56,9 @@ export default class Calendar extends Component {
                             className="cellStructure dataCell">
                                 <Button 
                                   variant="contained"
-                                  className="statusButton"
-                                  fullWidth="true"
-                                  disableRipple="true"
+                                  className={testDateClass(hour.startdate)}
+                                  fullWidth={true}
+                                  disableRipple={true}
                                   disableElevation>
                                       {hour.value}
                               </Button>

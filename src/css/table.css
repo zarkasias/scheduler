@@ -37,3 +37,8 @@ a.orderLink {
     background-color: green;
     color: #fff;
 }
+
+.redStatus.MuiButton-contained {
+    background-color: red;
+    color: #fff;
+}

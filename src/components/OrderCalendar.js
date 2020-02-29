@@ -158,6 +158,7 @@ export default class OrderCalendar extends Component {
        return currentdate;
    }
 
+
     //event handlers
     handleDateChange = date => {
         this.setState({
@@ -175,7 +176,6 @@ export default class OrderCalendar extends Component {
     handleOrderClick = orderId => {
         console.log(orderId);
     }
-
 
     onDragStart = (oEvent, id) => {
         oEvent.dataTransfer.setData("id", id);
@@ -213,16 +213,27 @@ export default class OrderCalendar extends Component {
 
     render() { 
       
-        const { calendar, hours, unscheduled_orders, date } = this.state;
+        const { calendar, hours, unscheduled_orders, date, anchor } = this.state;
     
       return (
         <div className="appContainer">
-            <Toolbar dateHandler={this.handleDateChange} utilHandler={this.handleUtilClick} currentdate={date} />  
+            <Toolbar 
+            dateHandler={this.handleDateChange} 
+            utilHandler={this.handleUtilClick} 
+            currentdate={date} />  
        <div>
-            <Calendar currenthours={hours} calendar={calendar} dragHandler={this.onDragOver} dropHandler={this.onDropHandler} />
+            <Calendar 
+            currenthours={hours} 
+            calendar={calendar}
+            dragHandler={this.onDragOver} 
+            dropHandler={this.onDropHandler} />
       </div>
       <div>
-            <Orders orders={unscheduled_orders} orderHandler={this.handleOrderClick} dragStartHandler={this.onDragStart} currentdate={date} />
+            <Orders 
+            orders={unscheduled_orders} 
+            orderHandler={this.handleOrderClick} 
+            dragStartHandler={this.onDragStart} 
+            currentdate={date} />
       </div>
     </div>
       );

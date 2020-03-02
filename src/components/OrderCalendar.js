@@ -30,6 +30,7 @@ export default class OrderCalendar extends Component {
 
         this.onDragStart = this.onDragStart.bind(this);    
         this.onDragOver = this.onDragOver.bind(this); 
+        this.onDragEnd = this.onDragEnd.bind(this);
         this.onDropHandler = this.onDropHandler.bind(this);
     }
 
@@ -37,8 +38,7 @@ export default class OrderCalendar extends Component {
         fetch(this.state.host + "/resources")
           .then(res => res.json())
           .then(
-            (result) => {
-                  console.log(result);  
+            (result) => { 
                   this.setState({
                       resources: result
                   });
@@ -56,7 +56,6 @@ export default class OrderCalendar extends Component {
         .then(res => res.json())
         .then(
           (result) => {
-                console.log(result);
                 this.setState({
                     scheduled_orders: result
                 });
@@ -73,7 +72,6 @@ export default class OrderCalendar extends Component {
         .then(res => res.json())
         .then(
           (result) => {
-                console.log(result);
                 this.setState({
                     unscheduled_orders: result
                 });   
@@ -108,7 +106,7 @@ export default class OrderCalendar extends Component {
           }).then(res => res.json())
           .then(
           (result) => {
-              console.log(result);
+              //console.log(result);
           },
           (error) => {
               console.log(error);
@@ -185,11 +183,17 @@ export default class OrderCalendar extends Component {
     }
 
     onDragStart = (oEvent, id) => {
+        oEvent.target.classList.add('inDrag');
+        oEvent.dataTransfer.effectAllowed = "clone";
         oEvent.dataTransfer.setData("id", id);
     }
     
     onDragOver = (oEvent) => {
         oEvent.preventDefault();
+    }
+
+    onDragEnd = (oEvent) => {
+        oEvent.target.classList.remove('inDrag');
     }
     
     onDropHandler = (oEvent, oCell) => {
@@ -229,7 +233,7 @@ export default class OrderCalendar extends Component {
 
     render() { 
       
-        const { calendar, hours, unscheduled_orders, date, anchor } = this.state;
+        const { calendar, hours, unscheduled_orders, date } = this.state;
     
       return (
         <div className="appContainer">
@@ -249,6 +253,7 @@ export default class OrderCalendar extends Component {
             orders={unscheduled_orders} 
             orderHandler={this.handleOrderClick} 
             dragStartHandler={this.onDragStart} 
+            dragEndHandler={this.onDragEnd}
             currentdate={date} />
       </div>
     </div>

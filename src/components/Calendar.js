@@ -38,15 +38,7 @@ export default class Calendar extends Component {
                             </Cell>
                         : <Cell 
                             key={hour.key} 
-                            className="cellStructure dataCell">
-                                {/* <Button 
-                                  variant="contained"
-                                  className={testDateClass(hour.startdate)}
-                                  fullWidth={true}
-                                  disableRipple={true}
-                                  disableElevation>
-                                      {hour.value}
-                              </Button> */}
+                            className={"cellStructure dataCell"}>
                               <OrderPopover hour={hour} />
                             </Cell>   
                         )

@@ -20,7 +20,28 @@
     cursor: pointer;
 }
 
-.dataCell {
+.inDrag {
+    border: none;
+    display: block;
+    margin: 0 auto;
+}
+
+.inDrag .orderCellStructure:not(:first-child) {
+    display: none;
+}
+
+.inDrag .orderCellStructure:first-child {
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color:#e0e0e0;
+}
+
+.inDrag .orderCellStructure:first-child a.orderLink {
+    color: #000;
+    margin: 0 auto;
+}
+
+.dataCell:not(:last-child) {
     border-right: 2px solid #e5e5e5;
 }
 

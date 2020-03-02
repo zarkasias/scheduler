@@ -27,7 +27,8 @@ export default class Orders extends Component {
               <Row
                 className="draggableRow" 
                 key={index + "_order"}
-                onDragStart = {(e) => this.props.dragStartHandler(e, order.id)} 
+                onDragStart = {(e) => this.props.dragStartHandler(e, order.id)}
+                onDragEnd = {(e) => this.props.dragEndHandler(e)} 
                 draggable>
                 <Cell className="orderCellStructure"><a className="orderLink" onClick={() => this.props.orderHandler(order.id)} href="#">{order.id}</a></Cell>
                 <Cell className="orderCellStructure">{order.customername}</Cell>

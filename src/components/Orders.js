@@ -22,21 +22,23 @@ export default class Orders extends Component {
               <Cell>End Date</Cell>
             </Row>
             {this.props.orders.map((order, index) => (
+              
+              (
               <Row
                 className="draggableRow" 
                 key={index + "_order"}
                 onDragStart = {(e) => this.props.dragStartHandler(e, order.id)} 
                 draggable>
-              <Cell className="orderCellStructure"><a className="orderLink" onClick={() => this.props.orderHandler(order.id)} href="#">{order.id}</a></Cell>
-              <Cell className="orderCellStructure">{order.customername}</Cell>
-              <Cell className="orderCellStructure">{order.city}</Cell>
-              <Cell className="orderCellStructure">{order.detail}</Cell>
-              <Cell className="orderCellStructure">{!order.scheduled ? "New" : "In Progress"}</Cell>
-              <Cell className="orderCellStructure">{order.priority ? order.priority : "Medium"}</Cell>
-              <Cell className="orderCellStructure">{order.type ? order.type : "Maintenance"}</Cell>
-              <Cell className="orderCellStructure">{order.startdate ? order.startdate : ""}</Cell>
-              <Cell className="orderCellStructure">{order.enddate ? order.enddate : ""}</Cell>
-            </Row>
+                <Cell className="orderCellStructure"><a className="orderLink" onClick={() => this.props.orderHandler(order.id)} href="#">{order.id}</a></Cell>
+                <Cell className="orderCellStructure">{order.customername}</Cell>
+                <Cell className="orderCellStructure">{order.city}</Cell>
+                <Cell className="orderCellStructure">{order.detail}</Cell>
+                <Cell className="orderCellStructure">{order.status === 1 ? "New" : "Assigned"}</Cell>
+                <Cell className="orderCellStructure">{order.priority ? order.priority : "Medium"}</Cell>
+                <Cell className="orderCellStructure">{order.type ? order.type : "Maintenance"}</Cell>
+                <Cell className="orderCellStructure">{order.startdate ? order.startdate : ""}</Cell>
+                <Cell className="orderCellStructure">{order.enddate ? order.enddate : ""}</Cell>
+              </Row>)
             ))}
             
          

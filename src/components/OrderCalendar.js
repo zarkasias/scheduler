@@ -11,7 +11,7 @@ export default class OrderCalendar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            host: 'http://localhost:3000',
+            host: 'http://localhost:4000',
             calendar: [],
             date: new Date(),
             days: 1,
@@ -36,6 +36,7 @@ export default class OrderCalendar extends Component {
           .then(res => res.json())
           .then(
             (result) => {
+                  console.log(result);  
                   this.setState({
                       resources: result
                   });
@@ -53,6 +54,7 @@ export default class OrderCalendar extends Component {
         .then(res => res.json())
         .then(
           (result) => {
+                console.log(result);
                 this.setState({
                     scheduled_orders: result
                 });
@@ -65,10 +67,11 @@ export default class OrderCalendar extends Component {
       }
 
       fetchOrders() {
-        fetch(this.state.host + "/orders")
+        fetch(this.state.host + "/orders?status=1")
         .then(res => res.json())
         .then(
           (result) => {
+                console.log(result);
                 this.setState({
                     unscheduled_orders: result
                 });   
@@ -196,6 +199,7 @@ export default class OrderCalendar extends Component {
                 oOpenOrder = order;
         });
         oOpenOrder.scheduled = true;
+        oOpenOrder.status = 2;
 
         //create new scheduled order to be posted to API    
         var oScheduledOrder = {
@@ -209,6 +213,7 @@ export default class OrderCalendar extends Component {
             }
        this.updateOrder(id,oOpenOrder);     
        this.setSchedule(oScheduledOrder);  
+       this.fetchOrders();
     }
 
     render() { 

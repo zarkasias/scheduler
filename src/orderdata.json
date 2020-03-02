@@ -71,7 +71,7 @@
       "id": "1",
       "serviceid": 1540,
       "peopleid": 15,
-      "scheduledate": "2020-02-15T01:30:17.305",
+      "scheduledate": "2020-03-01T01:30:17.305",
       "starttime": 9,
       "endtime": 10,
       "status": 2
@@ -80,7 +80,7 @@
       "id": "2",
       "serviceid": 1541,
       "peopleid": 16,
-      "scheduledate": "2020-02-15T01:30:17.305",
+      "scheduledate": "2020-03-01T01:30:17.305",
       "starttime": 9,
       "endtime": 10,
       "status": 1
@@ -111,6 +111,51 @@
       "starttime": 6,
       "endtime": 7,
       "status": 1
+    },
+    {
+      "id": 6,
+      "serviceid": 1544,
+      "peopleid": 4,
+      "scheduledate": "2020-03-01T08:00:00.000Z",
+      "starttime": 4,
+      "endtime": 5,
+      "status": 1
+    },
+    {
+      "id": 7,
+      "serviceid": 1543,
+      "peopleid": 7,
+      "scheduledate": "2020-03-01T08:00:00.000Z",
+      "starttime": 4,
+      "endtime": 5,
+      "status": 1
+    },
+    {
+      "id": 8,
+      "serviceid": 1543,
+      "peopleid": 7,
+      "scheduledate": "2020-03-01T08:00:00.000Z",
+      "starttime": 2,
+      "endtime": 3,
+      "status": 1
+    },
+    {
+      "id": 9,
+      "serviceid": 1542,
+      "peopleid": 6,
+      "scheduledate": "2020-03-01T08:00:00.000Z",
+      "starttime": 6,
+      "endtime": 7,
+      "status": 1
+    },
+    {
+      "id": 10,
+      "serviceid": 1539,
+      "peopleid": 10,
+      "scheduledate": "2020-03-01T08:00:00.000Z",
+      "starttime": 6,
+      "endtime": 7,
+      "status": 1
     }
   ],
   "orders": [
@@ -120,7 +165,8 @@
       "customername": "RED LION HOTEL",
       "city": " Middlefield1",
       "detail": "Air conditioning is not working",
-      "scheduled": true
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1543",
@@ -128,7 +174,8 @@
       "customername": "Changed AFTON UTILITY DEPT",
       "city": " ccc",
       "detail": "kkkk",
-      "scheduled": true
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1542",
@@ -136,7 +183,8 @@
       "customername": "ROBERTS FIRE DISTRICT",
       "city": " Bayshore",
       "detail": "Teller",
-      "scheduled": false
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1539",
@@ -144,7 +192,8 @@
       "customername": "COATS & COATS",
       "city": " Bayshore",
       "detail": "A9090",
-      "scheduled": false
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1538",
@@ -152,7 +201,8 @@
       "customername": "SALMON AIR TAXI",
       "city": null,
       "detail": "JKA",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1537",
@@ -160,7 +210,8 @@
       "customername": "DAHLE CONSTRUCTION",
       "city": null,
       "detail": "N092",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1536",
@@ -168,7 +219,8 @@
       "customername": "SWAN VALLEY FIRE DEPT",
       "city": null,
       "detail": "t901",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1534",
@@ -176,7 +228,8 @@
       "customername": "AFTON UTILITY DEPT",
       "city": " Middlefield",
       "detail": "Hello",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1533",
@@ -184,7 +237,8 @@
       "customername": "COATS & COATS",
       "city": " Bayshore",
       "detail": "HVAC  issue",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1532",
@@ -192,7 +246,8 @@
       "customername": "RED LION HOTEL",
       "city": " fre",
       "detail": "ope",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1531",
@@ -200,7 +255,8 @@
       "customername": "AFTON UTILITY DEPT",
       "city": null,
       "detail": "TTTTT",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1529",
@@ -208,7 +264,8 @@
       "customername": "RED LION HOTEL",
       "city": " Middlefield",
       "detail": "test3",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1535",
@@ -216,7 +273,8 @@
       "customername": "AFTON UTILITY DEPT",
       "city": null,
       "detail": "jjjj",
-      "scheduled": false
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1541",
@@ -224,7 +282,8 @@
       "customername": "Changed AFTON UTILITY DEPT",
       "city": " ccc",
       "detail": "kkkk",
-      "scheduled": true
+      "scheduled": true,
+      "status": 1
     },
     {
       "id": "1540",
@@ -232,7 +291,8 @@
       "customername": "ROBERTS FIRE DISTRICT",
       "city": " Bayshore",
       "detail": "Teller",
-      "scheduled": true
+      "scheduled": true,
+      "status": 1
     }
   ]
 }

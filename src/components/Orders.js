@@ -9,7 +9,7 @@ export default class Orders extends Component {
     return (
       <div className="orderComponentContainer">
         <div style={{width: '100%', height: '25vh'}}>
-          <StickyTable leftStickyColumncount={0} borderWidth={0}>
+          <StickyTable leftStickyColumncount={0}>
             <Row>
               <Cell>Order #</Cell>
               <Cell>Customer</Cell>

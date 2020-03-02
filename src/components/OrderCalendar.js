@@ -16,8 +16,8 @@ export default class OrderCalendar extends Component {
             date: new Date(),
             days: 1,
             hour_count: 24,
-            resources: [],
-            unscheduled_orders: [],
+            resources: [{"id": "0", "fname": "", "lname": ""},{"id": "0", "fname": "", "lname": ""},{"id": "0", "fname": "", "lname": ""}],
+            unscheduled_orders: [{"id": "0", "customerid": "0", "customername": null, "city": null, "detail": null, "scheduled": false}],
             scheduled_orders: [],
             hours: []
         };
@@ -43,7 +43,7 @@ export default class OrderCalendar extends Component {
                   this.fetchOrders();   
             },
             (error) => {
-              console.log(error);
+                this.setCalendar(); 
             }
           )
       }

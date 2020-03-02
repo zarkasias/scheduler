@@ -16,6 +16,8 @@ export default class OrderCalendar extends Component {
             date: new Date(),
             days: 1,
             hour_count: 24,
+            start_hour: 2,
+            end_hour: 11,
             resources: [{"id": "0", "fname": "", "lname": ""},{"id": "0", "fname": "", "lname": ""},{"id": "0", "fname": "", "lname": ""}],
             unscheduled_orders: [{"id": "0", "customerid": "0", "customername": null, "city": null, "detail": null, "scheduled": false}],
             scheduled_orders: [],
@@ -119,7 +121,8 @@ export default class OrderCalendar extends Component {
         var orders = this.state.scheduled_orders;
 
         var dailyhours = []; 
-        for (var i = 0; i < this.state.hour_count; i++) {
+        //for (var i = 0; i < this.state.hour_count; i++) {
+        for (var i = this.state.start_hour -1; i < this.state.end_hour; i++) {    
             var hobj = {"key": i+"_hour", "value": i+1};
             dailyhours.push(hobj);
         } 
@@ -134,7 +137,8 @@ export default class OrderCalendar extends Component {
                     }
                 }
             })
-            for (var j = 0; j < this.state.hour_count; j++) {
+            //for (var j = 0; j < this.state.hour_count; j++) {
+            for (var j = this.state.start_hour -1; j < this.state.end_hour; j++) {
                   var wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": "", "value": false};
                   for (var m = 0; m < window.orders.length; m++) {
                     if (window.orders[m].starttime === (j+1)) {
@@ -189,6 +193,13 @@ export default class OrderCalendar extends Component {
     }
     
     onDropHandler = (oEvent, oCell) => {
+        var todaysDate = new Date();
+        var schDate = new Date(this.state.date); 
+
+        if (todaysDate.setHours(0,0,0,0) > schDate.setHours(0,0,0,0)) {
+            alert ("You can't schedule order in the past. Change start date to today or coming days.");
+            return;
+        }
         var id = oEvent.dataTransfer.getData("id");
         var oResource = this.state.resources[oCell.resourcekey];
         var oOpenOrders = this.state.unscheduled_orders, oOpenOrder;

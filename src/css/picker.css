@@ -11,3 +11,7 @@
     cursor: pointer;
     position: relative;
 }
+
+.react-datepicker-popper {
+    z-index: 200;
+}

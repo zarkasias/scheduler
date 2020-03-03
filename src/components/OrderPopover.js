@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 
+import { Resizable } from "re-resizable";
+
 export default class OrderPopover extends Component {
 
     constructor(props) {
@@ -48,15 +50,20 @@ export default class OrderPopover extends Component {
 
         return (
             <div>
-                <Button 
-                    variant="contained"
-                    className={testDateClass(hour.startdate)}
-                    fullWidth={true}
-                    onClick={handleClick}
-                    disableRipple={true}
-                    disableElevation>
-                        {hour.value}
-                </Button>
+                {/* <Resizable defaultSize={{width: 114, height: 36}}> */}
+                    <Button 
+                        variant="contained"
+                        className={testDateClass(hour.startdate)}
+                        fullWidth={true}
+                        onClick={handleClick}
+                        onDragStart = {(e) => this.props.dragStartHandler(e, hour.value)}
+                        onDragEnd = {(e) => this.props.dragEndHandler(e)} 
+                        disableRipple={true}
+                        disableElevation
+                        draggable>
+                            {hour.value}
+                    </Button>
+                {/* </Resizable> */}
                 <Popover
                     open={open}
                     anchorEl={anchor}

@@ -98,6 +98,22 @@ export default class OrderCalendar extends Component {
         )
       }
 
+      updateSchedule(id,order) {
+        fetch(this.state.host + "/schedules/" + id , {
+            method: "put",
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(order)
+        }).then(res => res.json())
+          .then(
+          (result) => {
+              this.fetchSchedules();
+          },
+          (error) => {
+              console.log(error);
+          }
+      )
+    }
+
       updateOrder(id,order) {
           fetch(this.state.host + "/orders/" + id, {
               method: "put",
@@ -206,28 +222,57 @@ export default class OrderCalendar extends Component {
         }
         var id = oEvent.dataTransfer.getData("id");
         var oResource = this.state.resources[oCell.resourcekey];
-        var oOpenOrders = this.state.unscheduled_orders, oOpenOrder;
+        var oOpenOrders = this.state.unscheduled_orders, oScheduledOrder, oOpenOrder, oCurrentSchedule;
+        var oScheduledOrders = this.state.scheduled_orders;
 
+
+        //check to see if order is scheduled and update accordingly
+        oScheduledOrders.forEach(order => {
+            if (Number(order.serviceid) === Number(id))
+                oCurrentSchedule = order;
+        });
+
+        if (oCurrentSchedule) {
+            oCurrentSchedule.starttime = oCell.hour;
+            oCurrentSchedule.endtime = (oCell.hour + 1);
+            oCurrentSchedule.peopleid = Number(oResource.id);
+        }
+        
         //select current open order to update scheduled status
         oOpenOrders.forEach(order => {
             if(Number(order.id) === Number(id))
                 oOpenOrder = order;
         });
-        oOpenOrder.scheduled = true;
-        oOpenOrder.status = 2;
 
-        //create new scheduled order to be posted to API    
-        var oScheduledOrder = {
-            "id": this.state.scheduled_orders.length + 1,
-            "serviceid": Number(id),
-            "peopleid": Number(oResource.id),
-            "scheduledate": new Date(this.state.date).toISOString(),
-            "starttime": oCell.hour,
-            "endtime": (oCell.hour + 1),
-            "status": 1
+        if (oOpenOrder) {
+            oOpenOrder.scheduled = true;
+            oOpenOrder.status = 2;
+        }
+            
+ 
+        //create new scheduled order to be posted to API   
+        if (!oCurrentSchedule) 
+            oScheduledOrder = {
+                "id": this.state.scheduled_orders.length + 1,
+                "serviceid": Number(id),
+                "peopleid": Number(oResource.id),
+                "scheduledate": new Date(this.state.date).toISOString(),
+                "starttime": oCell.hour,
+                "endtime": (oCell.hour + 1),
+                "status": 1
             }
-       this.updateOrder(id,oOpenOrder);     
-       this.setSchedule(oScheduledOrder);  
+        
+       if (oOpenOrder) {
+        this.updateOrder(id,oOpenOrder); 
+       }
+          
+       if (oCurrentSchedule) {
+        this.updateSchedule(oCurrentSchedule.id,oCurrentSchedule); 
+       }    
+       if (oScheduledOrder) {
+        this.setSchedule(oScheduledOrder);  
+       }
+       
        this.fetchOrders();
     }
 
@@ -245,6 +290,8 @@ export default class OrderCalendar extends Component {
             <Calendar 
             currenthours={hours} 
             calendar={calendar}
+            dragStartHandler={this.onDragStart} 
+            dragEndHandler={this.onDragEnd}
             dragHandler={this.onDragOver} 
             dropHandler={this.onDropHandler} />
       </div>

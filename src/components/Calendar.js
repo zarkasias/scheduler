@@ -39,7 +39,7 @@ export default class Calendar extends Component {
                         : <Cell 
                             key={hour.key} 
                             className={"cellStructure dataCell"}>
-                              <OrderPopover dragStartHandler={this.props.dragStartHandler} dragEndHandler={this.props.dragEndHandler} hour={hour} />
+                              <OrderPopover dragStartHandler={this.props.dragStartHandler} dragEndHandler={this.props.dragEndHandler} resizeHandler={this.props.resizeHandler} hour={hour} />
                             </Cell>   
                         )
                         

@@ -32,6 +32,7 @@ export default class OrderCalendar extends Component {
         this.onDragOver = this.onDragOver.bind(this); 
         this.onDragEnd = this.onDragEnd.bind(this);
         this.onDropHandler = this.onDropHandler.bind(this);
+        this.onResizeStop = this.onResizeStop.bind(this);
     }
 
     componentDidMount() {
@@ -131,18 +132,18 @@ export default class OrderCalendar extends Component {
       }
 
       setCalendar() {
-        var resources = this.state.resources;  
-        var orders = this.state.scheduled_orders;
+        let resources = this.state.resources;  
+        let orders = this.state.scheduled_orders;
 
-        var dailyhours = []; 
-        //for (var i = 0; i < this.state.hour_count; i++) {
-        for (var i = this.state.start_hour -1; i < this.state.end_hour; i++) {    
-            var hobj = {"key": i+"_hour", "value": i+1};
+        let dailyhours = []; 
+        //for (let i = 0; i < this.state.hour_count; i++) {
+        for (let i = this.state.start_hour -1; i < this.state.end_hour; i++) {    
+            let hobj = {"key": i+"_hour", "value": i+1};
             dailyhours.push(hobj);
         } 
 
         resources.forEach((window, index) => {
-            var windowarray = [];
+            let windowarray = [];
             window.orders = [];
             orders.forEach(order => {
                 if (order.peopleid === Number(window.id)) {
@@ -151,12 +152,12 @@ export default class OrderCalendar extends Component {
                     }
                 }
             })
-            //for (var j = 0; j < this.state.hour_count; j++) {
-            for (var j = this.state.start_hour -1; j < this.state.end_hour; j++) {
-                  var wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": "", "value": false};
-                  for (var m = 0; m < window.orders.length; m++) {
+            //for (let j = 0; j < this.state.hour_count; j++) {
+            for (let j = this.state.start_hour -1; j < this.state.end_hour; j++) {
+                  let wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": "", "value": false};
+                  for (let m = 0; m < window.orders.length; m++) {
                     if (window.orders[m].starttime === (j+1)) {
-                        wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": window.orders[m].scheduledate, "value": window.orders[m].serviceid};
+                        wobj = {"id": window.orders[m].id, "key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": window.orders[m].scheduledate, "starttime": window.orders[m].starttime, "endtime": window.orders[m].endtime, "width": window.orders[m].width, "value": window.orders[m].serviceid};
                  }
                   }      
                 windowarray.push(wobj);
@@ -170,9 +171,9 @@ export default class OrderCalendar extends Component {
    }
 
    testDate(orderdate) {
-       var currentdate = false;
-       var odate = new Date(orderdate).setHours(0,0,0,0);
-       var today = this.state.date.setHours(0,0,0,0);
+       let currentdate = false;
+       let odate = new Date(orderdate).setHours(0,0,0,0);
+       let today = this.state.date.setHours(0,0,0,0);
        if (odate === today) {
         currentdate = true;
        }
@@ -211,19 +212,37 @@ export default class OrderCalendar extends Component {
     onDragEnd = (oEvent) => {
         oEvent.target.classList.remove('inDrag');
     }
+
+    onResizeStop = (oEvent, oDirection, oRef, oDimensions, order) => {
+        const cellwidth = 140;
+
+        let oScheduledOrders = this.state.scheduled_orders, oResizeOrder;
+        //check to see if order is scheduled and update accordingly
+        oScheduledOrders.forEach(current_order => {
+            if (Number(current_order.id) === Number(order.id))
+                oResizeOrder = current_order;
+        });
+       
+        let updatedwidth = order.width + oDimensions.width;
+        
+        let updatedendtime = order.starttime + (Math.floor(updatedwidth/cellwidth) + 1);
+        oResizeOrder.width = updatedwidth;
+        oResizeOrder.endtime = updatedendtime;
+        this.updateSchedule(oResizeOrder.id,oResizeOrder); 
+    };
     
     onDropHandler = (oEvent, oCell) => {
-        var todaysDate = new Date();
-        var schDate = new Date(this.state.date); 
+        let todaysDate = new Date();
+        let schDate = new Date(this.state.date); 
 
         if (todaysDate.setHours(0,0,0,0) > schDate.setHours(0,0,0,0)) {
             alert ("You can't schedule order in the past. Change start date to today or coming days.");
             return;
         }
-        var id = oEvent.dataTransfer.getData("id");
-        var oResource = this.state.resources[oCell.resourcekey];
-        var oOpenOrders = this.state.unscheduled_orders, oScheduledOrder, oOpenOrder, oCurrentSchedule;
-        var oScheduledOrders = this.state.scheduled_orders;
+        let id = oEvent.dataTransfer.getData("id");
+        let oResource = this.state.resources[oCell.resourcekey];
+        let oOpenOrders = this.state.unscheduled_orders, oScheduledOrder, oOpenOrder, oCurrentSchedule;
+        let oScheduledOrders = this.state.scheduled_orders;
 
 
         //check to see if order is scheduled and update accordingly
@@ -259,6 +278,7 @@ export default class OrderCalendar extends Component {
                 "scheduledate": new Date(this.state.date).toISOString(),
                 "starttime": oCell.hour,
                 "endtime": (oCell.hour + 1),
+                "width": 114,
                 "status": 1
             }
         
@@ -293,7 +313,8 @@ export default class OrderCalendar extends Component {
             dragStartHandler={this.onDragStart} 
             dragEndHandler={this.onDragEnd}
             dragHandler={this.onDragOver} 
-            dropHandler={this.onDropHandler} />
+            dropHandler={this.onDropHandler}
+            resizeHandler={this.onResizeStop} />
       </div>
       <div>
             <Orders 

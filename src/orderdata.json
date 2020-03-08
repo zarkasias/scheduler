@@ -74,6 +74,7 @@
       "scheduledate": "2020-03-01T01:30:17.305",
       "starttime": 9,
       "endtime": 10,
+      "width": 114,
       "status": 2
     },
     {
@@ -83,78 +84,17 @@
       "scheduledate": "2020-03-01T01:30:17.305",
       "starttime": 9,
       "endtime": 10,
+      "width": 114,
       "status": 1
     },
     {
-      "id": "3",
-      "serviceid": 1542,
-      "peopleid": 12,
-      "scheduledate": "2020-02-27T01:30:17.305",
-      "starttime": 8,
-      "endtime": 9,
-      "status": 1
-    },
-    {
-      "id": 4,
+      "id": 3,
       "serviceid": 1544,
-      "peopleid": 7,
-      "scheduledate": "2020-02-28T08:00:00.000Z",
-      "starttime": 7,
-      "endtime": 8,
-      "status": 1
-    },
-    {
-      "id": 5,
-      "serviceid": 1543,
-      "peopleid": 7,
-      "scheduledate": "2020-02-28T08:00:00.000Z",
-      "starttime": 6,
-      "endtime": 7,
-      "status": 1
-    },
-    {
-      "id": 6,
-      "serviceid": 1544,
-      "peopleid": 4,
-      "scheduledate": "2020-03-01T08:00:00.000Z",
-      "starttime": 4,
-      "endtime": 5,
-      "status": 1
-    },
-    {
-      "id": 7,
-      "serviceid": 1543,
-      "peopleid": 7,
-      "scheduledate": "2020-03-01T08:00:00.000Z",
-      "starttime": 4,
-      "endtime": 5,
-      "status": 1
-    },
-    {
-      "id": 8,
-      "serviceid": 1543,
-      "peopleid": 7,
-      "scheduledate": "2020-03-01T08:00:00.000Z",
-      "starttime": 2,
-      "endtime": 3,
-      "status": 1
-    },
-    {
-      "id": 9,
-      "serviceid": 1542,
       "peopleid": 6,
-      "scheduledate": "2020-03-01T08:00:00.000Z",
+      "scheduledate": "2020-03-08T08:00:00.000Z",
       "starttime": 6,
-      "endtime": 7,
-      "status": 1
-    },
-    {
-      "id": 10,
-      "serviceid": 1539,
-      "peopleid": 10,
-      "scheduledate": "2020-03-01T08:00:00.000Z",
-      "starttime": 6,
-      "endtime": 7,
+      "endtime": 8,
+      "width": 247,
       "status": 1
     }
   ],
@@ -174,8 +114,8 @@
       "customername": "Changed AFTON UTILITY DEPT",
       "city": " ccc",
       "detail": "kkkk",
-      "scheduled": true,
-      "status": 2
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1542",
@@ -183,8 +123,8 @@
       "customername": "ROBERTS FIRE DISTRICT",
       "city": " Bayshore",
       "detail": "Teller",
-      "scheduled": true,
-      "status": 2
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1539",
@@ -192,8 +132,8 @@
       "customername": "COATS & COATS",
       "city": " Bayshore",
       "detail": "A9090",
-      "scheduled": true,
-      "status": 2
+      "scheduled": false,
+      "status": 1
     },
     {
       "id": "1538",
@@ -229,7 +169,7 @@
       "city": " Middlefield",
       "detail": "Hello",
       "scheduled": false,
-      "status": 1
+      "status": 2
     },
     {
       "id": "1533",

@@ -11,7 +11,7 @@ export default class OrderPopover extends Component {
         super(props);
         this.state = { 
             anchor: null,
-            hour: this.props.hour 
+            hour: this.props.hour
         };
     }
 
@@ -50,7 +50,10 @@ export default class OrderPopover extends Component {
 
         return (
             <div>
-                {/* <Resizable defaultSize={{width: 114, height: 36}}> */}
+                <Resizable 
+                defaultSize={{width: hour.width, height: 36}}
+                enable={{top: false, right:true, bottom:false, left: false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
+                onResizeStop={(e, direction, ref, d) => this.props.resizeHandler(e, direction, ref, d, hour)}>
                     <Button 
                         variant="contained"
                         className={testDateClass(hour.startdate)}
@@ -63,7 +66,7 @@ export default class OrderPopover extends Component {
                         draggable>
                             {hour.value}
                     </Button>
-                {/* </Resizable> */}
+                </Resizable>
                 <Popover
                     open={open}
                     anchorEl={anchor}

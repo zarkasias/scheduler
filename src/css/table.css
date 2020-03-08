@@ -6,9 +6,16 @@
     padding-left: 0px !important;
 }
 
+.fixedtable {
+    table-layout: fixed;
+}
+
 .cellStructure {
     min-width: 140px;
-    height: 80px;    
+    width: 140px;
+    max-width: 140px;
+    height: 80px;  
+    max-height: 80px;  
 }
 
 .orderCellStructure {

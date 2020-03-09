@@ -56,12 +56,6 @@ a.orderLink {
     text-decoration: none;
 }
 
-.popOver {
-    width: 260px;
-    min-height: 100px;
-    height: 100%;
-}
-
 .statusButton.MuiButtonBase-root {
     vertical-align: top;
     margin: 20px 0 0 0;

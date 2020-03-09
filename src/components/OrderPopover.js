@@ -2,28 +2,47 @@ import React, { Component } from 'react';
 
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
+import Popper from '@material-ui/core/Popper';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { Resizable } from "re-resizable";
+
+import '../css/popover.css';
 
 export default class OrderPopover extends Component {
 
     constructor(props) {
         super(props);
         this.state = { 
-            anchor: null,
-            hour: this.props.hour
+            popOverAnchor: null,
+            popperAnchor: null,
+            hour: this.props.hour,
+            placement: 'right-start'
         };
     }
 
-    setAnchor = event => {
+    setPopOverAnchor = event => {
         this.setState({
-            anchor: event
+            popOverAnchor: event
+        });
+    }
+
+    setPopperAnchor = event => {
+        let anchor = this.state.popperAnchor === event ? null : event;
+        this.setState({
+            popperAnchor: anchor
+        });
+    }
+
+    setPopperAnchorNull = event => {
+        this.setState({
+            popperAnchor: event
         });
     }
 
     render() {
 
-        const { hour, anchor } = this.state;
+        const { hour, popOverAnchor, popperAnchor, placement } = this.state;
 
         const testDateClass = date => {
             var dateClass = "statusButton";
@@ -38,15 +57,34 @@ export default class OrderPopover extends Component {
             return dateClass;
         }
 
-        const handleClick = event => {
-            this.setAnchor(event.currentTarget);
+        const formatTime = time => {
+            if (time < 12) {
+                return time + ":00 am";
+            } else {
+                return time + ":00 pm";
+            }
+            
+        }
+
+        const handlePopOverClick = event => {
+            this.setPopOverAnchor(event.currentTarget);
           };
         
-          const handleClose = () => {
-            this.setAnchor(null);
+          const handlePopOverClose = () => {
+            this.setPopOverAnchor(null);
+          };
+
+          const handlePopperClick = event => {
+            this.setPopperAnchor(event.currentTarget);
           };
         
-          const open = Boolean(anchor);
+          const handlePopperClose = event => {
+            event.preventDefault();  
+            this.setPopperAnchorNull(null);
+          };
+        
+          const popOverOpen = Boolean(popOverAnchor);
+          const popperOpen = Boolean(popperAnchor);
 
         return (
             <div>
@@ -58,7 +96,7 @@ export default class OrderPopover extends Component {
                         variant="contained"
                         className={testDateClass(hour.startdate)}
                         fullWidth={true}
-                        onClick={handleClick}
+                        onClick={handlePopOverClick}
                         onDragStart = {(e) => this.props.dragStartHandler(e, hour.value)}
                         onDragEnd = {(e) => this.props.dragEndHandler(e)} 
                         disableRipple={true}
@@ -68,22 +106,38 @@ export default class OrderPopover extends Component {
                     </Button>
                 </Resizable>
                 <Popover
-                    open={open}
-                    anchorEl={anchor}
-                    onClose={handleClose}
+                    open={popOverOpen}
+                    anchorEl={popOverAnchor}
+                    onClose={handlePopOverClose}
                     anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'center',
+                    horizontal: 'left',
                     }}
                     transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'center',
+                    horizontal: 'left',
                     }}
                     >
+                    <Popper open={popperOpen} anchorEl={popperAnchor} placement={placement} transition>
+                    <div className="utilityMenu">
+                        <button className="linkButton" onClick={handlePopperClose}> Notify </button>
+                        <button className="linkButton" onClick={handlePopperClose}> Completed </button>
+                        <button className="linkButton" onClick={handlePopperClose}> Reschedule </button>
+                        <button className="linkButton" onClick={handlePopperClose}> Team Members </button>
+                    </div>
+                    </Popper>   
                       <div className="popOver">
-                      {hour.value}
+                          <div className="popToolbar">
+                            {formatTime(hour.starttime)} - {formatTime(hour.endtime)}
+                            
+                            <div className="utilMenuButton">
+                            <Button size="small" onClick={handlePopperClick}>
+                                <MoreVertIcon />
+                            </Button>
+                            </div>
+                            
+                          </div>
                      </div>  
-                        
                 </Popover>
             </div>
         );

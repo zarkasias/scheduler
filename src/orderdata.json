@@ -96,6 +96,16 @@
       "endtime": 8,
       "width": 247,
       "status": 1
+    },
+    {
+      "id": 4,
+      "serviceid": 1543,
+      "peopleid": 5,
+      "scheduledate": "2020-03-08T08:00:00.000Z",
+      "starttime": 5,
+      "endtime": 6,
+      "width": 350,
+      "status": 1
     }
   ],
   "orders": [
@@ -114,8 +124,8 @@
       "customername": "Changed AFTON UTILITY DEPT",
       "city": " ccc",
       "detail": "kkkk",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1542",

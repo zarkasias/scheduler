@@ -22,9 +22,16 @@ export default class OrderPopover extends Component {
     }
 
     setPopOverAnchor = event => {
-        this.setState({
-            popOverAnchor: event
-        });
+        if (event === null) {
+            this.setState({
+                popOverAnchor: event,
+                popperAnchor: false
+            });
+        } else {
+            this.setState({
+                popOverAnchor: event
+            });
+        }
     }
 
     setPopperAnchor = event => {
@@ -85,6 +92,7 @@ export default class OrderPopover extends Component {
         
           const popOverOpen = Boolean(popOverAnchor);
           const popperOpen = Boolean(popperAnchor);
+
 
         return (
             <div>

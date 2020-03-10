@@ -1,0 +1,37 @@
+.chip {
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.chip.MuiChip-outlined {
+  border: 1px solid #0A6ED1;
+  background-color: transparent;
+}
+
+.chip.MuiChip-root {
+  font-size: .8rem;
+  font-weight: 400;
+  color: #ffffff;
+  border-radius: 4px;
+  height: 20px;
+}
+
+.chip.MuiChip-clickable.MuiChip-outlined:hover,
+.chip.MuiChip-clickable.MuiChip-outlined:focus {
+  background-color: #0A6ED1;
+  color: #fff;
+}
+
+
+.chip .MuiChip-label {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.yellowchip.MuiChip-root {
+  background-color: #F0AB00;
+}
+
+.redchip.MuiChip-root {
+  background-color: red;
+}

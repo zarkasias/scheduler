@@ -224,7 +224,6 @@ export default class OrderCalendar extends Component {
         });
        
         let updatedwidth = order.width + oDimensions.width;
-        
         let updatedendtime = order.starttime + (Math.floor(updatedwidth/cellwidth) + 1);
         oResizeOrder.width = updatedwidth;
         oResizeOrder.endtime = updatedendtime;

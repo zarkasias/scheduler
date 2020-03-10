@@ -18,8 +18,8 @@ export default class Calendar extends Component {
           <StickyTable>
             <Row>
               <Cell className="resourceHeader">Resource</Cell>
-               {this.props.currenthours.map(time => (
-                <Cell className="tableHeader" id={time.key}>
+               {this.props.currenthours.map((time, index) => (
+                <Cell className="tableHeader" key={time.key + index} id={time.key}>
                     {time.value}
                 </Cell>
                ))} 

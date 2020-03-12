@@ -18,6 +18,7 @@ export default class OrderCalendar extends Component {
             hour_count: 24,
             start_hour: 2,
             end_hour: 11,
+            cellwidth: 140,
             resources: [{"id": "0", "fname": "", "lname": ""},{"id": "0", "fname": "", "lname": ""},{"id": "0", "fname": "", "lname": ""}],
             unscheduled_orders: [{"id": "0", "customerid": "0", "customername": null, "city": null, "detail": null, "scheduled": false}],
             scheduled_orders: [],
@@ -157,7 +158,7 @@ export default class OrderCalendar extends Component {
                   let wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": "", "value": false};
                   for (let m = 0; m < window.orders.length; m++) {
                     if (window.orders[m].starttime === (j+1)) {
-                        wobj = {"id": window.orders[m].id, "key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": window.orders[m].scheduledate, "starttime": window.orders[m].starttime, "endtime": window.orders[m].endtime, "width": window.orders[m].width, "value": window.orders[m].serviceid};
+                        wobj = {"id": window.orders[m].id, "key": window.orders[m].serviceid, "hour" : (j+1), "resourcekey" : index, "startdate": window.orders[m].scheduledate, "starttime": window.orders[m].starttime, "endtime": window.orders[m].endtime, "width": window.orders[m].width, "value": window.orders[m].serviceid};
                  }
                   }      
                 windowarray.push(wobj);
@@ -214,8 +215,6 @@ export default class OrderCalendar extends Component {
     }
 
     onResizeStop = (oEvent, oDirection, oRef, oDimensions, order) => {
-        const cellwidth = 140;
-
         let oScheduledOrders = this.state.scheduled_orders, oResizeOrder;
         //check to see if order is scheduled and update accordingly
         oScheduledOrders.forEach(current_order => {
@@ -224,7 +223,7 @@ export default class OrderCalendar extends Component {
         });
        
         let updatedwidth = order.width + oDimensions.width;
-        let updatedendtime = order.starttime + (Math.floor(updatedwidth/cellwidth) + 1);
+        let updatedendtime = order.starttime + (Math.floor(updatedwidth/this.state.cellwidth) + 1);
         oResizeOrder.width = updatedwidth;
         oResizeOrder.endtime = updatedendtime;
         this.updateSchedule(oResizeOrder.id,oResizeOrder); 
@@ -252,7 +251,7 @@ export default class OrderCalendar extends Component {
 
         if (oCurrentSchedule) {
             oCurrentSchedule.starttime = oCell.hour;
-            oCurrentSchedule.endtime = (oCell.hour + 1);
+            oCurrentSchedule.endtime = oCell.hour + (Math.floor(oCurrentSchedule.width/this.state.cellwidth) + 1);
             oCurrentSchedule.peopleid = Number(oResource.id);
         }
         

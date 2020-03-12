@@ -27,6 +27,21 @@ export default class OrderPopover extends Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        let hour = this.state.hour;
+        if (prevProps.hour !== this.props.hour) {
+            hour = this.props.hour;
+        }
+       
+        if (hour !== this.state.hour) {
+          this.setState(prevState => ({
+            ...prevState,
+            hour: hour
+          }))
+        }
+    
+      }
+
     setPopOverAnchor = event => {
         if (event === null) {
             this.setState({

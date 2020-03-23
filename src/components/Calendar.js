@@ -30,15 +30,19 @@ export default class Calendar extends Component {
                     {row.hours.map(hour => (
                         (!hour.value
                         ? <Cell 
+                            id={hour.key}
                             key={hour.key} 
                             onDragOver={(e) => this.props.dragHandler(e)}
                             onDrop={(e) => this.props.dropHandler(e, hour)} 
-                            className="cellStructure dataCell">
+                            className="activeCellStructure dataCell">
                                 {hour.value}
                             </Cell>
                         : <Cell 
-                            key={hour.key} 
-                            className={"cellStructure dataCell"}>
+                            id={hour.key}
+                            key={hour.key}
+                            onDragOver={(e) => this.props.dragHandler(e)} 
+                            onDrop={(e) => this.props.dropHandler(e, hour)} 
+                            className={"activeCellStructure dataCell"}>
                               <OrderPopover dragStartHandler={this.props.dragStartHandler} dragEndHandler={this.props.dragEndHandler} resizeHandler={this.props.resizeHandler} hour={hour} />
                             </Cell>   
                         )

@@ -15,7 +15,16 @@
     width: 140px;
     max-width: 140px;
     height: 80px;  
-    max-height: 80px;  
+    max-height: 80px;    
+}
+
+.activeCellStructure {
+    min-width: 140px;
+    width: 140px;
+    max-width: 140px;
+    height: 80px;  
+    max-height: 80px; 
+    padding: 0.5rem 0rem;
 }
 
 .orderCellStructure {
@@ -58,7 +67,24 @@ a.orderLink {
 
 .statusButton.MuiButtonBase-root {
     vertical-align: top;
+    padding: 2px 0px;
     margin: 20px 0 0 0;
+}
+
+.minute_00.MuiButtonBase-root {
+    margin-left: 0px;
+}
+
+.minute_15.MuiButtonBase-root {
+    margin-left: 35px;
+}
+
+.minute_30.MuiButtonBase-root {
+    margin-left: 70px;
+}
+
+.minute_45.MuiButtonBase-root {
+    margin-left: 105px;
 }
 
 .greenStatus.MuiButton-contained {

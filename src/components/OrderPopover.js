@@ -65,7 +65,7 @@ export default class OrderPopover extends Component {
 
         const { hour, popOverAnchor, menuAnchor} = this.state;
 
-        const testDateClass = date => {
+        const testDateClass = (date, minute) => {
             var dateClass = "statusButton";
             var odate = new Date(date).setHours(0,0,0,0);
             var today = new Date().setHours(0,0,0,0);
@@ -75,14 +75,28 @@ export default class OrderPopover extends Component {
             if (odate > today) {
               dateClass = "statusButton greenStatus";
             }
+
+            switch(minute) {
+                case "15":
+                    dateClass = dateClass + " minute_15";
+                    break;
+                case "30":
+                    dateClass = dateClass + " minute_30";
+                    break;
+                case "45":
+                    dateClass = dateClass + " minute_45";
+                    break;
+                default:
+                    dateClass = dateClass + " minute_00";            
+            }
             return dateClass;
         }
 
-        const formatTime = time => {
+        const formatTime = (time, minute) => {
             if (time < 12) {
-                return time + ":00 am";
+                return time + ":" + minute + " am";
             } else {
-                return time + ":00 pm";
+                return time + ":" + minute + " pm";
             }
             
         }
@@ -126,7 +140,7 @@ export default class OrderPopover extends Component {
                 onResizeStop={(e, direction, ref, d) => this.props.resizeHandler(e, direction, ref, d, hour)}>
                     <Button 
                         variant="contained"
-                        className={testDateClass(hour.startdate)}
+                        className={testDateClass(hour.startdate, hour.minute)}
                         fullWidth={true}
                         onClick={handlePopOverClick}
                         onDragStart = {(e) => this.props.dragStartHandler(e, hour.value)}
@@ -158,7 +172,7 @@ export default class OrderPopover extends Component {
                     </Menu>   
                       <div className="popOver">
                           <div className="popToolbar">
-                            {formatTime(hour.starttime)} - {formatTime(hour.endtime)}
+                            {formatTime(hour.starttime, hour.minute)} - {formatTime(hour.endtime, hour.minute)}
                             
                             <div className="utilMenuButton">
                             <Button size="small" onClick={handleMenuClick}>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Picker from './Picker';
+import DateRange from './DateRange';
 
 import Button from '@material-ui/core/Button';
 
@@ -19,7 +20,7 @@ export default class Toolbar extends Component {
               Starting Date
           </div>
           <Picker dateHandler={this.props.dateHandler} currentdate={this.props.currentdate} />
-          Placeholder for Range Tool
+          <DateRange datelabel={this.props.datelabel} datebuttonhandler={this.props.dateButtonHandler} />
           
           <div className="utilButton">
             <Button 

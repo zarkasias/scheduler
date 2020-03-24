@@ -14,6 +14,7 @@ export default class OrderCalendar extends Component {
             host: 'http://localhost:4000',
             calendar: [],
             date: new Date(),
+            datelabel: "Today",
             days: 1,
             hour_count: 24,
             start_hour: 2,
@@ -25,6 +26,7 @@ export default class OrderCalendar extends Component {
             hours: []
         };
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleDateButtonHandler = this.handleDateButtonHandler.bind(this);
         this.handleUtilClick = this.handleUtilClick.bind(this);
         this.handleOrderClick = this.handleOrderClick.bind(this);
         this.setCalendar = this.setCalendar.bind(this);
@@ -171,6 +173,24 @@ export default class OrderCalendar extends Component {
        })
    }
 
+
+   determineDay(date) {
+    let currdate = new Date(date).setHours(0,0,0,0);
+    let today = new Date().setHours(0,0,0,0); 
+    let difference = Math.floor(((today - currdate) / (1000 * 60 * 60)));
+    let dlabel = "Today";
+    if (difference === 24) {    
+        dlabel = "Yesterday";
+    } 
+    else if (difference > 24 || difference < -24) {
+        dlabel = date.toLocaleDateString();
+    }
+    else if (difference === -24) {
+        dlabel = "Tomorrow";
+    }
+    return dlabel;
+   }
+
    testDate(orderdate) {
        let currentdate = false;
        let odate = new Date(orderdate).setHours(0,0,0,0);
@@ -189,13 +209,28 @@ export default class OrderCalendar extends Component {
 
     //event handlers
     handleDateChange = date => {
+        let datelabel = this.determineDay(date);
         this.setState({
-        date: new Date(date)
+        date: new Date(date),
+        datelabel: datelabel
         }, 
         function() {
             this.setCalendar();
         });
     };
+
+    handleDateButtonHandler = value => {
+        var cdate = new Date(this.state.date);
+
+        if (value === 1) {
+              cdate.setDate(cdate.getDate() + 1);
+
+        }
+        else if (value === -1) {
+            cdate.setDate(cdate.getDate() - 1);
+        }
+        this.handleDateChange(cdate);
+    }
 
     handleUtilClick = () => {
         console.log('util click');
@@ -392,14 +427,16 @@ export default class OrderCalendar extends Component {
 
     render() { 
       
-        const { calendar, hours, unscheduled_orders, date } = this.state;
+        const { calendar, hours, unscheduled_orders, date, datelabel } = this.state;
     
       return (
         <div className="appContainer">
             <Toolbar 
-            dateHandler={this.handleDateChange} 
+            dateHandler={this.handleDateChange}
+            dateButtonHandler={this.handleDateButtonHandler} 
             utilHandler={this.handleUtilClick} 
-            currentdate={date} />  
+            currentdate={date}
+            datelabel={datelabel} />  
        <div>
             <Calendar 
             currenthours={hours} 

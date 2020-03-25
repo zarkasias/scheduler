@@ -135,12 +135,14 @@ export default class OrderPopover extends Component {
         return (
             <div>
                 <Resizable 
+                grid={[35, 35]} 
+                snapGap={35} 
                 defaultSize={{width: hour.width, height: 36}}
                 enable={{top: false, right:true, bottom:false, left: false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
                 onResizeStop={(e, direction, ref, d) => this.props.resizeHandler(e, direction, ref, d, hour)}>
                     <Button 
                         variant="contained"
-                        className={testDateClass(hour.startdate, hour.minute)}
+                        className={testDateClass(hour.startdate, hour.startminute)}
                         fullWidth={true}
                         onClick={handlePopOverClick}
                         onDragStart = {(e) => this.props.dragStartHandler(e, hour.value)}
@@ -172,7 +174,7 @@ export default class OrderPopover extends Component {
                     </Menu>   
                       <div className="popOver">
                           <div className="popToolbar">
-                            {formatTime(hour.starttime, hour.minute)} - {formatTime(hour.endtime, hour.minute)}
+                            {formatTime(hour.starttime, hour.startminute)} - {formatTime(hour.endtime, hour.endminute)}
                             
                             <div className="utilMenuButton">
                             <Button size="small" onClick={handleMenuClick}>

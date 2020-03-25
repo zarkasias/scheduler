@@ -67,47 +67,8 @@
     }
   ],
   "schedules": [
-    {
-      "id": "1",
-      "serviceid": 1540,
-      "peopleid": 15,
-      "scheduledate": "2020-03-01T01:30:17.305",
-      "starttime": 9,
-      "endtime": 10,
-      "width": 114,
-      "status": 2
-    },
-    {
-      "id": "2",
-      "serviceid": 1541,
-      "peopleid": 16,
-      "scheduledate": "2020-03-01T01:30:17.305",
-      "starttime": 9,
-      "endtime": 10,
-      "width": 114,
-      "status": 1
-    },
-    {
-      "id": 3,
-      "serviceid": 1544,
-      "peopleid": 6,
-      "scheduledate": "2020-03-08T08:00:00.000Z",
-      "starttime": 6,
-      "endtime": 8,
-      "width": 247,
-      "status": 1
-    },
-    {
-      "id": 4,
-      "serviceid": 1543,
-      "peopleid": 5,
-      "scheduledate": "2020-03-08T08:00:00.000Z",
-      "starttime": 5,
-      "endtime": 6,
-      "width": 350,
-      "status": 1
-    }
   ],
+  
   "orders": [
     {
       "id": "1544",
@@ -133,17 +94,17 @@
       "customername": "ROBERTS FIRE DISTRICT",
       "city": " Bayshore",
       "detail": "Teller",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1539",
-      "customerid": "624",
+      "customerid": "614",
       "customername": "COATS & COATS",
       "city": " Bayshore",
       "detail": "A9090",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1538",
@@ -151,8 +112,8 @@
       "customername": "SALMON AIR TAXI",
       "city": null,
       "detail": "JKA",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1537",
@@ -160,8 +121,8 @@
       "customername": "DAHLE CONSTRUCTION",
       "city": null,
       "detail": "N092",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1536",
@@ -169,8 +130,8 @@
       "customername": "SWAN VALLEY FIRE DEPT",
       "city": null,
       "detail": "t901",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1534",
@@ -178,7 +139,7 @@
       "customername": "AFTON UTILITY DEPT",
       "city": " Middlefield",
       "detail": "Hello",
-      "scheduled": false,
+      "scheduled": true,
       "status": 2
     },
     {
@@ -187,8 +148,8 @@
       "customername": "COATS & COATS",
       "city": " Bayshore",
       "detail": "HVAC  issue",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1532",
@@ -196,8 +157,8 @@
       "customername": "RED LION HOTEL",
       "city": " fre",
       "detail": "ope",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1531",
@@ -205,8 +166,8 @@
       "customername": "AFTON UTILITY DEPT",
       "city": null,
       "detail": "TTTTT",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1529",
@@ -214,8 +175,8 @@
       "customername": "RED LION HOTEL",
       "city": " Middlefield",
       "detail": "test3",
-      "scheduled": false,
-      "status": 1
+      "scheduled": true,
+      "status": 2
     },
     {
       "id": "1535",
@@ -232,7 +193,7 @@
       "customername": "Changed AFTON UTILITY DEPT",
       "city": " ccc",
       "detail": "kkkk",
-      "scheduled": true,
+      "scheduled": false,
       "status": 1
     },
     {
@@ -241,7 +202,7 @@
       "customername": "ROBERTS FIRE DISTRICT",
       "city": " Bayshore",
       "detail": "Teller",
-      "scheduled": true,
+      "scheduled": false,
       "status": 1
     }
   ]

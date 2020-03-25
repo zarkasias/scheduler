@@ -34,8 +34,8 @@ export default class OrderCalendar extends Component {
         this.onDragStart = this.onDragStart.bind(this);    
         this.onDragOver = this.onDragOver.bind(this); 
         this.onDragEnd = this.onDragEnd.bind(this);
-        this.onDropHandler = this.onDropHandler.bind(this);
-        this.onResizeStop = this.onResizeStop.bind(this);
+        this.onDropHandlerNew = this.onDropHandlerNew.bind(this);
+        this.onResizeStopNew = this.onResizeStopNew.bind(this);
     }
 
     componentDidMount() {
@@ -63,7 +63,7 @@ export default class OrderCalendar extends Component {
                 this.setState({
                     scheduled_orders: result
                 });
-               this.setCalendar();      
+               this.setCalendar();               
           },
           (error) => {
             console.log(error);
@@ -160,8 +160,12 @@ export default class OrderCalendar extends Component {
                   let wobj = {"key": (j+index)+"_window", "hour" : (j+1), "resourcekey" : index, "startdate": "", "value": false};
                   for (let m = 0; m < window.orders.length; m++) {
                     if (window.orders[m].starttime === (j+1)) {
-                        wobj = {"id": window.orders[m].id, "key": window.orders[m].serviceid, "hour" : (j+1), "resourcekey" : index, "startdate": window.orders[m].scheduledate, "starttime": window.orders[m].starttime, "endtime": window.orders[m].endtime, "minute": window.orders[m].minute, "width": window.orders[m].width, "value": window.orders[m].serviceid};
-                 }
+                        wobj = {"id": window.orders[m].id, "key": window.orders[m].serviceid, "hour" : (j+1), "resourcekey" : index, 
+                        "startdate": window.orders[m].scheduledate, "starttime": window.orders[m].starttime, 
+                        "endtime": window.orders[m].endtime, "startminute": window.orders[m].startminute, 
+                        "endminute": window.orders[m].endminute, "width": window.orders[m].width, "value": window.orders[m].serviceid
+                        };
+                    }
                   }      
                 windowarray.push(wobj);
              } 
@@ -259,55 +263,55 @@ export default class OrderCalendar extends Component {
         oEvent.target.classList.remove('inDrag');
     }
 
-    onResizeStop = (oEvent, oDirection, oRef, oDimensions, order) => {
+    onResizeStopNew = (oEvent, oDirection, oRef, oDimensions, order) => {
         let oScheduledOrders = this.state.scheduled_orders,
             oResizeOrder;
+        //console.log('onResizeStopNew...........');
+            // no change in dragging
+        if (oDimensions.width === 0) {
+            return;
+        }
         //check to see if order is scheduled and update accordingly
         oScheduledOrders.forEach(current_order => {
             if (Number(current_order.id) === Number(order.id))
                 oResizeOrder = current_order;
         });
-
         let updatedwidth, updatedposition, minute = "00";
 
-        switch (oResizeOrder.minute) {
-            case '15':
-                updatedposition = oDimensions.width + 35;
-                break;
-            case '30':
-                updatedposition = oDimensions.width + 70;
-                break;
-            case '45':
-                updatedposition = oDimensions.width + 105;
-                break;
-            default:
-                updatedposition = oDimensions.width;    
-        }
-        if (updatedposition >= 25 && updatedposition <= 52) {
-            minute = "15";
-        } else if (updatedposition >= 53 && updatedposition <= 87) {
-            minute = "30";
-        } else if (updatedposition >= 88 && updatedposition <= 120) {
-            minute = "45";
-        } else if (updatedposition <= 140) {
-            minute = "00";
-        }
-        if (updatedposition >= this.state.cellwidth) {
-            oResizeOrder.endtime = oResizeOrder.endtime + Math.round(updatedposition / this.state.cellwidth);
-        }
         updatedwidth = order.width + oDimensions.width;
+        if (updatedwidth < 70) {
+            return; // at minimum 30 minutes must schedule
+        }
+
+        oResizeOrder.endtime = oResizeOrder.starttime + Math.floor(updatedwidth / this.state.cellwidth);
+
+        let mn = updatedwidth % this.state.cellwidth;
+
+        if (mn === 35) {
+            oResizeOrder.endminute = '15'
+        } else if (mn > 35 && mn <= 70 ) {
+            oResizeOrder.endminute = '30'
+        } else if (mn > 70 && mn <= 105 ) {
+            oResizeOrder.endminute = '45'
+        } else {
+            oResizeOrder.endminute = '00'
+        }
+
         oResizeOrder.width = updatedwidth;
-        oResizeOrder.minute = minute;
+        //oResizeOrder.minute = minute;
+        
         this.updateSchedule(oResizeOrder.id, oResizeOrder);
+        this.setCalendar(); //DILIP
     };
     
-    onDropHandler = (oEvent, oCell) => {
+    
+    onDropHandlerNew = (oEvent, oCell) => {
         let todaysDate = new Date();
         let schDate = new Date(this.state.date);
         let minute = "00";
         let hourchange = 0;
+        let moveHr = 0;
         let positive = true;
-
 
         if (todaysDate.setHours(0, 0, 0, 0) > schDate.setHours(0, 0, 0, 0)) {
             alert("You can't schedule order in the past. Change start date to today or coming days.");
@@ -316,7 +320,7 @@ export default class OrderCalendar extends Component {
         let id = oEvent.dataTransfer.getData("id");
         let oResource = this.state.resources[oCell.resourcekey];
         let oOpenOrders = this.state.unscheduled_orders,
-            oScheduledOrder, oOpenOrder, oCurrentSchedule;
+            oScheduledOrder, oOpenOrder, oCurrentSchedule;           
         let oScheduledOrders = this.state.scheduled_orders;
 
 
@@ -325,64 +329,97 @@ export default class OrderCalendar extends Component {
             if (Number(order.serviceid) === Number(id))
                 oCurrentSchedule = order;
         });
-
+        
         if (oCurrentSchedule) {
-
             //get updated clientx and clienty of dragged target
             //also use the x from currentTarget which is the cell in order to calculate the differential because of the location of the mouse click
             if (this.dragorder) {
                 let adjustedX = (oEvent.clientX - this.dragorder.startX);
                 positive = adjustedX < 0 ? false : true;
+                           
+                if (positive)
+                {
 
-                // if (adjustedX < -25) {
-                //     adjustedX = 140 + adjustedX;
-                //     hourchange = -1;
-                // } else if (adjustedX > 165) {
-                //     adjustedX = adjustedX - 140;  
-                //     hourchange = 1;;    
-                // }
-                if (positive) {
-                    if (adjustedX >= 25 && adjustedX <= 52) {
-                        minute = "15";
-                    } else if (adjustedX >= 53 && adjustedX <= 87) {
-                        minute = "30";
-                    } else if (adjustedX >= 88 && adjustedX <= 120) {
-                        minute = "45";
+                    let rem = adjustedX % this.state.cellwidth;
+                    moveHr = Math.floor(adjustedX / this.state.cellwidth);
+                    if (rem != 0 && (rem > 120)) {
+                        moveHr = moveHr + 1;
+                        rem = 0;
                     }
-                    minute = Number(minute) + Number(oCurrentSchedule.minute);
-                    minute = minute.toString();
+                    if (rem > 0) {
+                        if (rem >= 25 && rem <= 52) {
+                            minute = "15";
+                        } else if (rem >= 53 && rem <= 87) {
+                            minute = "30";
+                        } else if (rem >= 88 && rem <= 120) {
+                            minute = "45";
+                        }
+                        
+                    }
+
+
+                    let mn = Number(minute) + Number(oCurrentSchedule.startminute);
+                    oCurrentSchedule.starttime = oCurrentSchedule.starttime + moveHr + Math.floor(mn/60);
+                    mn = mn % 60;
+                    oCurrentSchedule.startminute = mn.toString();
+                    mn = Number(minute) + Number(oCurrentSchedule.endminute);
+                    oCurrentSchedule.endtime = oCurrentSchedule.endtime + moveHr +  Math.floor(mn/60);
+                    mn = mn % 60;
+                    oCurrentSchedule.endminute = mn.toString();
+                    oCurrentSchedule.peopleid = Number(oResource.id);                    
+                    
                 } else {
-                    var targetX = oEvent.currentTarget.getBoundingClientRect().x;
-                    var lastposition;
-                    switch (oCurrentSchedule.minute) {
-                        case '15':
-                            lastposition = targetX + 35;
-                            break;
-                        case '30':
-                            lastposition = targetX + 70;
-                            break;
-                        case '45':
-                            lastposition = targetX + 105;
-                            break;
+                    
+                    //console.log('adjustedX: ' + adjustedX + ' positive: ' + positive); 
+                    //console.log('moveHr0: ' + moveHr);
+                    let rem = Math.abs(adjustedX % this.state.cellwidth);
+                    moveHr = Math.floor(Math.abs(adjustedX) / this.state.cellwidth);
+                    //console.log('moveHr1: ' + moveHr);
+                    if (rem != 0 && (rem > 120)) {
+                        moveHr = moveHr + 1;
+                        rem = 0;
                     }
-                    var currentposition = lastposition + adjustedX;
-                    var updatedX = currentposition - targetX;
+                    //console.log('moveHr2: ' + moveHr);
+                    if (rem > 0) {
+                        if (rem >= 25 && rem <= 52) {
+                            minute = "15";
+                        } else if (rem >= 53 && rem <= 87) {
+                            minute = "30";
+                        } else if (rem >= 88 && rem <= 120) {
+                            minute = "45";
+                        }
+                        //console.log('minute: ' + minute);
+                    }                                        
+        
+                    let mn = Number(oCurrentSchedule.startminute) - Number(minute);
+                    if (mn < 0) {
+                        oCurrentSchedule.starttime = oCurrentSchedule.starttime - (moveHr + 1);
+                    } else {
+                        oCurrentSchedule.starttime = oCurrentSchedule.starttime - moveHr;
+                    }                    
+                    mn = Math.abs(mn);
+                    oCurrentSchedule.startminute = mn.toString();
 
-                    if (updatedX >= 25 && updatedX <= 52) {
-                        minute = "15";
-                    } else if (updatedX >= 53 && updatedX <= 87) {
-                        minute = "30";
-                    } else if (updatedX >= 88 && updatedX <= 120) {
-                        minute = "45";
+                    mn = Number(oCurrentSchedule.endminute) - Number(minute);
+                    if (mn < 0) {
+                        oCurrentSchedule.endtime = oCurrentSchedule.endtime - (moveHr + 1);
+                    } else {
+                        oCurrentSchedule.endtime = oCurrentSchedule.endtime - moveHr;
                     }
+                    mn = Math.abs(mn);
+                    oCurrentSchedule.endminute = mn.toString();
+
+                    oCurrentSchedule.peopleid = Number(oResource.id);                    
                 }
             }
 
-            let currenthour = oCell.hour + hourchange;
-            oCurrentSchedule.starttime = currenthour;
-            oCurrentSchedule.minute = minute;
-            oCurrentSchedule.endtime = currenthour + Math.floor(oCurrentSchedule.width / this.state.cellwidth);
-            oCurrentSchedule.peopleid = Number(oResource.id);
+            //let currenthour = oCell.hour + hourchange;
+            //oCurrentSchedule.starttime = currenthour;            
+            //oCurrentSchedule.startminute = minute;
+            //oCurrentSchedule.endminute = minute;            
+            //oCurrentSchedule.endtime = currenthour + Math.floor(oCurrentSchedule.width / this.state.cellwidth);
+            
+            //oCurrentSchedule.peopleid = Number(oResource.id);
         }
 
         //select current open order to update scheduled status
@@ -405,8 +442,9 @@ export default class OrderCalendar extends Component {
                 "peopleid": Number(oResource.id),
                 "scheduledate": new Date(this.state.date).toISOString(),
                 "starttime": oCell.hour,
-                "minute": "00",
+                "startminute": "00",
                 "endtime": (oCell.hour + 1),
+                "endminute": "00",
                 "width": 140,
                 "status": 1
             }
@@ -444,8 +482,8 @@ export default class OrderCalendar extends Component {
             dragStartHandler={this.onDragStart} 
             dragEndHandler={this.onDragEnd}
             dragHandler={this.onDragOver} 
-            dropHandler={this.onDropHandler}
-            resizeHandler={this.onResizeStop} />
+            dropHandler={this.onDropHandlerNew}
+            resizeHandler={this.onResizeStopNew} />
       </div>
       <div>
             <Orders 

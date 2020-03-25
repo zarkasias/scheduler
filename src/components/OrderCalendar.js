@@ -362,10 +362,12 @@ export default class OrderCalendar extends Component {
                     oCurrentSchedule.starttime = oCurrentSchedule.starttime + moveHr + Math.floor(mn/60);
                     mn = mn % 60;
                     oCurrentSchedule.startminute = mn.toString();
+                    oCurrentSchedule.startminute = oCurrentSchedule.startminute === "0" ? "00" : oCurrentSchedule.startminute;
                     mn = Number(minute) + Number(oCurrentSchedule.endminute);
                     oCurrentSchedule.endtime = oCurrentSchedule.endtime + moveHr +  Math.floor(mn/60);
                     mn = mn % 60;
                     oCurrentSchedule.endminute = mn.toString();
+                    oCurrentSchedule.endminute = oCurrentSchedule.endminute === "0" ? "00" : oCurrentSchedule.endminute;
                     oCurrentSchedule.peopleid = Number(oResource.id);                    
                     
                 } else {
@@ -399,6 +401,7 @@ export default class OrderCalendar extends Component {
                     }                    
                     mn = Math.abs(mn);
                     oCurrentSchedule.startminute = mn.toString();
+                    oCurrentSchedule.startminute = oCurrentSchedule.startminute === "0" ? "00" : oCurrentSchedule.startminute;
 
                     mn = Number(oCurrentSchedule.endminute) - Number(minute);
                     if (mn < 0) {
@@ -408,6 +411,7 @@ export default class OrderCalendar extends Component {
                     }
                     mn = Math.abs(mn);
                     oCurrentSchedule.endminute = mn.toString();
+                    oCurrentSchedule.endminute = oCurrentSchedule.endminute === "0" ? "00" : oCurrentSchedule.endminute;
 
                     oCurrentSchedule.peopleid = Number(oResource.id);                    
                 }

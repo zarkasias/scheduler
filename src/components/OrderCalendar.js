@@ -162,8 +162,8 @@ export default class OrderCalendar extends Component {
                     if (window.orders[m].starttime === (j+1)) {
                         wobj = {"id": window.orders[m].id, "key": window.orders[m].serviceid, "hour" : (j+1), "resourcekey" : index, 
                         "startdate": window.orders[m].scheduledate, "starttime": window.orders[m].starttime, 
-                        "endtime": window.orders[m].endtime, "startminute": window.orders[m].startminute, 
-                        "endminute": window.orders[m].endminute, "width": window.orders[m].width, "value": window.orders[m].serviceid
+                        "endtime": window.orders[m].endtime, "startminute": ''+ window.orders[m].startminute, 
+                        "endminute": '' + window.orders[m].endminute, "width": window.orders[m].width, "value": window.orders[m].serviceid
                         };
                     }
                   }      
@@ -288,13 +288,13 @@ export default class OrderCalendar extends Component {
         let mn = updatedwidth % this.state.cellwidth;
 
         if (mn === 35) {
-            oResizeOrder.endminute = '15'
+            oResizeOrder.endminute = 15
         } else if (mn > 35 && mn <= 70 ) {
-            oResizeOrder.endminute = '30'
+            oResizeOrder.endminute = 30
         } else if (mn > 70 && mn <= 105 ) {
-            oResizeOrder.endminute = '45'
+            oResizeOrder.endminute = 45
         } else {
-            oResizeOrder.endminute = '00'
+            oResizeOrder.endminute = 0
         }
 
         oResizeOrder.width = updatedwidth;
@@ -361,13 +361,11 @@ export default class OrderCalendar extends Component {
                     let mn = Number(minute) + Number(oCurrentSchedule.startminute);
                     oCurrentSchedule.starttime = oCurrentSchedule.starttime + moveHr + Math.floor(mn/60);
                     mn = mn % 60;
-                    oCurrentSchedule.startminute = mn.toString();
-                    oCurrentSchedule.startminute = oCurrentSchedule.startminute === "0" ? "00" : oCurrentSchedule.startminute;
+                    oCurrentSchedule.startminute = mn;
                     mn = Number(minute) + Number(oCurrentSchedule.endminute);
                     oCurrentSchedule.endtime = oCurrentSchedule.endtime + moveHr +  Math.floor(mn/60);
                     mn = mn % 60;
-                    oCurrentSchedule.endminute = mn.toString();
-                    oCurrentSchedule.endminute = oCurrentSchedule.endminute === "0" ? "00" : oCurrentSchedule.endminute;
+                    oCurrentSchedule.endminute = mn;
                     oCurrentSchedule.peopleid = Number(oResource.id);                    
                     
                 } else {
@@ -400,8 +398,7 @@ export default class OrderCalendar extends Component {
                         oCurrentSchedule.starttime = oCurrentSchedule.starttime - moveHr;
                     }                    
                     mn = Math.abs(mn);
-                    oCurrentSchedule.startminute = mn.toString();
-                    oCurrentSchedule.startminute = oCurrentSchedule.startminute === "0" ? "00" : oCurrentSchedule.startminute;
+                    oCurrentSchedule.startminute = mn;
 
                     mn = Number(oCurrentSchedule.endminute) - Number(minute);
                     if (mn < 0) {
@@ -410,8 +407,7 @@ export default class OrderCalendar extends Component {
                         oCurrentSchedule.endtime = oCurrentSchedule.endtime - moveHr;
                     }
                     mn = Math.abs(mn);
-                    oCurrentSchedule.endminute = mn.toString();
-                    oCurrentSchedule.endminute = oCurrentSchedule.endminute === "0" ? "00" : oCurrentSchedule.endminute;
+                    oCurrentSchedule.endminute = mn;
 
                     oCurrentSchedule.peopleid = Number(oResource.id);                    
                 }
@@ -446,9 +442,9 @@ export default class OrderCalendar extends Component {
                 "peopleid": Number(oResource.id),
                 "scheduledate": new Date(this.state.date).toISOString(),
                 "starttime": oCell.hour,
-                "startminute": "00",
+                "startminute": 0,
                 "endtime": (oCell.hour + 1),
-                "endminute": "00",
+                "endminute": 0,
                 "width": 140,
                 "status": 1
             }

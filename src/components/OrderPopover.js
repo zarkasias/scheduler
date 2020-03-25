@@ -61,6 +61,14 @@ export default class OrderPopover extends Component {
         });
     }
 
+    getMinuteFormatted(m) {
+        let ret = '' + m;
+        if (ret.length === 1) {
+            ret = '0' + ret;
+        }
+        return ret;
+    } 
+
     render() {
 
         const { hour, popOverAnchor, menuAnchor} = this.state;
@@ -94,9 +102,9 @@ export default class OrderPopover extends Component {
 
         const formatTime = (time, minute) => {
             if (time < 12) {
-                return time + ":" + minute + " am";
+                return time + ":" + this.getMinuteFormatted(minute) + " am";
             } else {
-                return time + ":" + minute + " pm";
+                return time + ":" + this.getMinuteFormatted(minute) + " pm";
             }
             
         }

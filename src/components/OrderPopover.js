@@ -23,7 +23,8 @@ export default class OrderPopover extends Component {
         this.state = { 
             popOverAnchor: null,
             menuAnchor: null,
-            hour: this.props.hour
+            hour: this.props.hour,
+            clickHandler: this.props.clickHandler
         };
     }
 
@@ -71,7 +72,7 @@ export default class OrderPopover extends Component {
 
     render() {
 
-        const { hour, popOverAnchor, menuAnchor} = this.state;
+        const { hour, popOverAnchor, menuAnchor, clickHandler} = this.state;
 
         const testDateClass = (date, minute) => {
             var dateClass = "statusButton";
@@ -126,7 +127,7 @@ export default class OrderPopover extends Component {
         }
 
         const handleMenuItemClick = item => {
-            console.log(item);
+            clickHandler(item);
             handleMenuClose();
         }
 

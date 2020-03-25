@@ -43,7 +43,7 @@ export default class Calendar extends Component {
                             onDragOver={(e) => this.props.dragHandler(e)} 
                             onDrop={(e) => this.props.dropHandler(e, hour)} 
                             className={"activeCellStructure dataCell"}>
-                              <OrderPopover dragStartHandler={this.props.dragStartHandler} dragEndHandler={this.props.dragEndHandler} resizeHandler={this.props.resizeHandler} hour={hour} />
+                              <OrderPopover dragStartHandler={this.props.dragStartHandler} dragEndHandler={this.props.dragEndHandler} resizeHandler={this.props.resizeHandler} clickHandler={this.props.menuHandler} hour={hour} />
                             </Cell>   
                         )
                         

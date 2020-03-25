@@ -34,6 +34,7 @@ export default class OrderCalendar extends Component {
         this.onDragStart = this.onDragStart.bind(this);    
         this.onDragOver = this.onDragOver.bind(this); 
         this.onDragEnd = this.onDragEnd.bind(this);
+        this.onMenuHandler = this.onMenuHandler.bind(this);
         this.onDropHandlerNew = this.onDropHandlerNew.bind(this);
         this.onResizeStopNew = this.onResizeStopNew.bind(this);
     }
@@ -244,6 +245,10 @@ export default class OrderCalendar extends Component {
         console.log(orderId);
     }
 
+    onMenuHandler = menuitem => {
+        console.log(menuitem);
+    }
+
     onDragStart = (oEvent, id, type) => {
         //store clientx and clienty of existing order when item is dragged
         if (type === undefined) {
@@ -276,7 +281,7 @@ export default class OrderCalendar extends Component {
             if (Number(current_order.id) === Number(order.id))
                 oResizeOrder = current_order;
         });
-        let updatedwidth, updatedposition, minute = "00";
+        let updatedwidth;
 
         updatedwidth = order.width + oDimensions.width;
         if (updatedwidth < 70) {
@@ -298,7 +303,6 @@ export default class OrderCalendar extends Component {
         }
 
         oResizeOrder.width = updatedwidth;
-        //oResizeOrder.minute = minute;
         
         this.updateSchedule(oResizeOrder.id, oResizeOrder);
         this.setCalendar(); //DILIP
@@ -309,7 +313,6 @@ export default class OrderCalendar extends Component {
         let todaysDate = new Date();
         let schDate = new Date(this.state.date);
         let minute = "00";
-        let hourchange = 0;
         let moveHr = 0;
         let positive = true;
 
@@ -342,7 +345,7 @@ export default class OrderCalendar extends Component {
 
                     let rem = adjustedX % this.state.cellwidth;
                     moveHr = Math.floor(adjustedX / this.state.cellwidth);
-                    if (rem != 0 && (rem > 120)) {
+                    if (rem !== 0 && (rem > 120)) {
                         moveHr = moveHr + 1;
                         rem = 0;
                     }
@@ -375,7 +378,7 @@ export default class OrderCalendar extends Component {
                     let rem = Math.abs(adjustedX % this.state.cellwidth);
                     moveHr = Math.floor(Math.abs(adjustedX) / this.state.cellwidth);
                     //console.log('moveHr1: ' + moveHr);
-                    if (rem != 0 && (rem > 120)) {
+                    if (rem !== 0 && (rem > 120)) {
                         moveHr = moveHr + 1;
                         rem = 0;
                     }
@@ -388,7 +391,6 @@ export default class OrderCalendar extends Component {
                         } else if (rem >= 88 && rem <= 120) {
                             minute = "45";
                         }
-                        //console.log('minute: ' + minute);
                     }                                        
         
                     let mn = Number(oCurrentSchedule.startminute) - Number(minute);
@@ -412,14 +414,6 @@ export default class OrderCalendar extends Component {
                     oCurrentSchedule.peopleid = Number(oResource.id);                    
                 }
             }
-
-            //let currenthour = oCell.hour + hourchange;
-            //oCurrentSchedule.starttime = currenthour;            
-            //oCurrentSchedule.startminute = minute;
-            //oCurrentSchedule.endminute = minute;            
-            //oCurrentSchedule.endtime = currenthour + Math.floor(oCurrentSchedule.width / this.state.cellwidth);
-            
-            //oCurrentSchedule.peopleid = Number(oResource.id);
         }
 
         //select current open order to update scheduled status
@@ -483,6 +477,7 @@ export default class OrderCalendar extends Component {
             dragEndHandler={this.onDragEnd}
             dragHandler={this.onDragOver} 
             dropHandler={this.onDropHandlerNew}
+            menuHandler={this.onMenuHandler}
             resizeHandler={this.onResizeStopNew} />
       </div>
       <div>
